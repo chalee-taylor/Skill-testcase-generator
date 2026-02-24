@@ -2,68 +2,68 @@
 
 ## 1. Project Overview
 
-**Skill Test Case Generator** là một dự án nhằm xây dựng AI Skill hỗ trợ QC/Tester tự động tạo test case từ file spec sản phẩm.
+**Skill Test Case Generator** is a project aimed at building an AI Skill that helps QC/Testers automatically generate test cases from product spec files.
 
-Mục tiêu của dự án là:
+The goals of this project are:
 
-* Giảm thời gian viết test case thủ công
-* Tăng độ coverage (happy path, edge case, negative case)
-* Chuẩn hóa format test case giữa các QC
-* Giúp QC tập trung vào review thay vì viết từ đầu
+* Reduce time spent writing test cases manually
+* Increase coverage (happy path, edge case, negative case)
+* Standardize test case format across QC team members
+* Help QC focus on reviewing rather than writing from scratch
 
-Dự án này được xây dựng trong bối cảnh cuộc thi **Cook A Skill – QC Team**, nơi mỗi cá nhân tạo một AI Skill phục vụ workflow QC thực tế.
+This project was built in the context of the **Cook A Skill – QC Team** competition, where each individual creates an AI Skill to serve real-world QC workflows.
 
 ---
 
 ## 2. Problem Statement
 
-Trong quy trình QC hiện tại:
+In the current QC process:
 
-* QC phải đọc spec thủ công
-* Tự suy nghĩ test case từng bước
-* Dễ miss edge case
-* Mỗi người viết format khác nhau
-* Tốn nhiều thời gian cho module phức tạp
+* QC must read specs manually
+* Think through test cases step by step on their own
+* Edge cases are easily missed
+* Each person writes in a different format
+* Complex modules take a lot of time
 
-➡️ Cần một AI Skill có thể:
+➡️ An AI Skill is needed that can:
 
-* Đọc spec .md
-* Phân tích logic
-* Generate test case chuẩn format
-* Gợi ý edge case và test data
+* Read `.md` spec files
+* Analyze logic
+* Generate test cases in a standardized format
+* Suggest edge cases and test data
 
 ---
 
 ## 3. Target Users
 
-* QC / Tester Manual
-* QA Lead cần review test case
-* Product team muốn kiểm tra coverage spec
+* QC / Manual Testers
+* QA Leads who need to review test cases
+* Product teams who want to verify spec coverage
 
-Use case chính:
+Main use cases:
 
-* Viết test case nhanh cho feature mới
-* Review spec để tìm missing logic
-* Chuẩn hóa test case trước khi test
+* Quickly write test cases for new features
+* Review specs to find missing logic
+* Standardize test cases before testing
 
 ---
 
 ## 4. Expected Workflow
 
-Luồng hoạt động mong muốn:
+Desired workflow:
 
-1. QC cung cấp file spec của feature (markdown)
-2. AI đọc spec theo instruction của Skill
-3. AI phân tích:
+1. QC provides the feature spec file (markdown)
+2. AI reads the spec following the Skill's instructions
+3. AI analyzes:
 
    * User flow
    * Business logic
    * Validation rules
    * Edge cases
-4. AI generate danh sách test cases
-5. QC review và chỉnh sửa nếu cần
+4. AI generates a list of test cases
+5. QC reviews and edits if needed
 
-Output phải dùng được ngay cho test.
+Output must be ready to use for testing immediately.
 
 ---
 
@@ -71,10 +71,10 @@ Output phải dùng được ngay cho test.
 
 ### Input
 
-* File spec feature (.md)
-* Hoặc nội dung feature description
+* Feature spec file (`.md`)
+* Or feature description content
 
-Spec có thể ở dạng:
+Spec can be in the form of:
 
 * PRD
 * BRS
@@ -83,7 +83,7 @@ Spec có thể ở dạng:
 
 ### Output
 
-Danh sách test cases gồm:
+A list of test cases including:
 
 * ID
 * Title
@@ -93,7 +93,7 @@ Danh sách test cases gồm:
 * Priority
 * Test Type (Happy / Negative / Edge)
 
-Có thể export sang Markdown / CSV / Excel.
+Can be exported to Markdown / CSV / Excel.
 
 ---
 
@@ -102,65 +102,65 @@ Có thể export sang Markdown / CSV / Excel.
 ### In Scope
 
 * Generate functional test cases
-* Detect edge cases cơ bản
-* Generate test data suggestion
-* Chuẩn format output
+* Detect basic edge cases
+* Generate test data suggestions
+* Standardized output format
 
-### Out Scope
+### Out of Scope
 
-* Automation script
-* Performance testing script
+* Automation scripts
+* Performance testing scripts
 * Security penetration testing
-* Integration với tool bug tracking
+* Integration with bug tracking tools
 
 ---
 
 ## 7. Quality Expectations
 
-Skill cần đảm bảo:
+The Skill must ensure:
 
-* Coverage đầy đủ:
+* Full coverage:
 
   * Happy path
   * Negative case
   * Edge case
-* Test case rõ ràng, từng bước
-* Expected result cụ thể
-* Priority hợp lý
-* Không duplicate test case
+* Clear, step-by-step test cases
+* Specific expected results
+* Reasonable priority
+* No duplicate test cases
 
 ---
 
 ## 8. Assumptions
 
-* Spec được viết tương đối rõ ràng
-* QC có thể chỉnh sửa spec trước khi generate
-* AI không thay thế QC review cuối cùng
+* Specs are written with reasonable clarity
+* QC can edit the spec before generating
+* AI does not replace the final QC review
 
 ---
 
 ## 9. Limitations
 
-Skill có thể gặp hạn chế khi:
+The Skill may face limitations when:
 
-* Spec quá mơ hồ
-* Thiếu business rule
-* Không có user flow
-* Feature quá phức tạp hoặc phụ thuộc nhiều hệ thống
+* Spec is too vague
+* Business rules are missing
+* No user flow is provided
+* Feature is too complex or depends on many systems
 
-Trong các trường hợp này, QC cần refine spec trước.
+In these cases, QC needs to refine the spec first.
 
 ---
 
 ## 10. Next Steps
 
-Từ README này, Agent sẽ:
+From this README, the Agent will:
 
-1. Hiểu mục tiêu dự án
-2. Viết **spec.md** cho từng feature
-3. Viết **SKILL.md** để hướng dẫn AI generate test case
+1. Understand the project goals
+2. Write **spec.md** for each feature
+3. Write **SKILL.md** to guide the AI in generating test cases
 
-Repo structure dự kiến:
+Expected repo structure:
 
 ```
 repo/
@@ -175,22 +175,22 @@ repo/
 
 ## 11. Success Criteria
 
-Skill được xem là thành công khi:
+The Skill is considered successful when:
 
-* Feed 1 spec thật → generate test case usable
-* QC chỉ cần chỉnh sửa nhỏ
-* Coverage tốt hơn manual
-* Format consistent
-* Demo live chạy ổn định
+* Feed 1 real spec → generate usable test cases
+* QC only needs minor edits
+* Coverage is better than manual
+* Format is consistent
+* Live demo runs stably
 
 ---
 
 ## 12. Vision
 
-Trong tương lai, Skill có thể mở rộng:
+In the future, the Skill can be extended to:
 
-* Detect ambiguity trong spec
-* Generate automation test skeleton
-* Tạo test report tự động
-* Tích hợp Jira / TestRail
-* Multi‑language spec parsing
+* Detect ambiguity in specs
+* Generate automation test skeletons
+* Create test reports automatically
+* Integrate with Jira / TestRail
+* Multi-language spec parsing
