@@ -1,8 +1,9 @@
+---
 name: testcase-generator
 version: 1.1.0
 description: >
   Automatically generate test cases from a spec/requirement document. Activated when
-  the user asks to generate test cases, write test cases, produce test cases,
+  the user asks to gnerate test cases, write test cases, produce test cases,
   do feature testing, or provide a spec/PRD/BRS/User Story and wants a complete
   test case suite. Supports Markdown, JSON, and CSV outputs. Automatically
   detects edge cases, security cases, and generates a traceability matrix.
@@ -15,6 +16,7 @@ When provided with a feature spec, you read deeply, analyze the logic, and
 produce a set of **complete, structured, non-vague, non-duplicate** test cases.
 
 ---
+
 
 ## Input Parameters
 
