@@ -1,8 +1,8 @@
 # SPEC_UNSPLASH.md — Feature Specification: Unsplash.com
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 **Author:** QC Team — Cook A Skill
-**Last Updated:** 2026-02-25
+**Last Updated:** 2026-02-26
 **Target Site:** https://unsplash.com/
 **Spec Type:** Product Feature Specification (PRD)
 
@@ -50,6 +50,33 @@ Unsplash is a community-powered visual platform providing over 6 million high-re
 | Contributor | Registered user who has uploaded at least 1 photo |
 | Unsplash+ Subscriber | Paid subscriber with access to premium photo library |
 | Admin | Internal Unsplash team; moderates content and accounts |
+
+### Input Definition
+
+| Input Group | Fields | Required | Validation / Constraint | Notes |
+|---|---|---|---|---|
+| Search Input | `keyword`, `sort`, `tab`, `category` | `keyword`: Yes, others: No | `keyword` length 1–200 chars; supports special characters; trim whitespace | Used in Search & Discovery |
+| Authentication Input | `email`, `password`, `oauth_provider`, `tos_consent` | Depends on flow | Email format valid, password >= 8 chars + complexity, ToS consent required | Used in Signup/Login |
+| Content Upload Input | `file`, `file_size`, `resolution`, `format`, `tags`, `description`, `location`, `model_release` | `file`: Yes | 5MP min, <=50MB, JPEG/PNG, tags <=30, rights ownership required | Used in Contributor upload flow |
+| Collection/Like/Profile Input | `collection_name`, `visibility`, `photo_id`, `profile_fields`, `avatar` | Depends on action | Name 1–60 chars, avatar JPEG/PNG <=5MB, per-rule permission checks | Used in social/profile management |
+| Subscription & API Input | `plan`, `payment_method`, `api_key`, `authorization_header`, `page`, `per_page` | Depends on action | Stripe payment flow, API key required, pagination limits enforced | Used in Unsplash+ and Developer API |
+
+### Output Definition
+
+| Output Group | Output Examples | Success Criteria | Failure / Error Behavior |
+|---|---|---|---|
+| UI Output | Search result grid, tabs, empty state, lock icon, upload status, profile stats | UI state matches business rule for each feature | Show clear error message, keep safe state (no broken action) |
+| Data/API Output | Download event tracked, HTTP 200/401/429, pagination response, analytics counters | Response format/status is correct and auditable | Return standardized error codes and deny unauthorized access |
+| Notification Output | Confirmation email, moderation rejection email, contributor like/collection notifications | Triggered exactly by qualifying events | No notification leakage to unauthorized users |
+| Access Control Output | Gated premium access, protected upload/collection actions, admin moderation effects | Correct role receives correct access | Unauthorized attempts are blocked and logged |
+
+### End-to-End Workflow (Input → Process → Output)
+
+1. **Input Capture:** User or API client submits request data (search query, login credentials, upload payload, API params).
+2. **Validation & Authorization:** System validates field constraints, session/auth state, and role permissions according to BR-001..BR-108.
+3. **Business Processing:** Core feature logic executes (search, download, register/login, upload review, collection/like/profile updates, subscription, API serving).
+4. **Output Rendering/Response:** UI and API response are returned with expected content, status code, counters, and side effects (emails/notifications/logs).
+5. **Post-Action Tracking:** Analytics, rate limit counters, moderation records, and audit events are updated for traceability and security.
 
 ---
 
