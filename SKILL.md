@@ -234,6 +234,10 @@ Apply these **System Prompt Rules** when generating each test case:
 
 ### Step 6 — Traceability Check & Coverage Gap Detection
 
+> **Behavior by `coverage_level`:**
+> - `basic` — **Skip this step entirely.** No traceability matrix and no gap detection are produced.
+> - `standard` / `full` — Run all sub-steps below.
+
 After all test cases are generated:
 
 1. **Map each Rule ID** to the list of TC IDs that cover it.
@@ -274,6 +278,11 @@ The following test cases were flagged as potentially low quality and require man
 - TC-012: Missing test data
 Please revise before execution.
 ```
+
+**Large Output Rule:**
+If total TC count exceeds **50**, reorganize the Test Case List by **User Flow** instead of by Type.
+Use group headers in format `### Flow N — [user_flow_name]`, then apply type sub-sections (`🟢 Happy Path`, `🔴 Negative`, etc.) within each flow.
+This keeps long outputs navigable without sacrificing structure.
 
 **Assemble output in this order:**
 1. (if applicable) PII Masking Report
@@ -356,7 +365,27 @@ Required structure includes 4 objects: `meta`, `test_cases`, `coverage_summary`,
     "total_rules": 4,
     "total_tcs": 9
   },
-  "test_cases": [...],
+  "test_cases": [
+    {
+      "id": "TC-001",
+      "title": "Login with valid email and password",
+      "type": "Happy Path",
+      "priority": "P1 - Critical",
+      "rule_ref": ["BR-001", "BR-002", "BR-004"],
+      "precondition": "User account user@test.com exists and is active. Login page /login is open.",
+      "test_data": "email: user@test.com / password: Pass@1234",
+      "steps": [
+        "Navigate to /login",
+        "Enter email: user@test.com",
+        "Enter password: Pass@1234",
+        "Click 'Login' button"
+      ],
+      "expected_result": "User is redirected to /dashboard. Welcome message 'Hello, User' is displayed in the header.",
+      "actual_result": "",
+      "status": "",
+      "notes": ""
+    }
+  ],
   "coverage_summary": {
     "happy_path": N,
     "negative": N,
@@ -438,6 +467,24 @@ Steps:
   3. Enter password: Pass@1234
   4. Click "Login" button
 Expected Result: User is redirected to /dashboard. Welcome message "Hello, User" is displayed in the header.
+```
+
+### ✅ Good — Negative
+
+```
+ID: TC-002
+Title: Login rejected when password is incorrect
+Type: Negative
+Priority: P2 - High
+Rule Ref: BR-001, BR-002
+Precondition: User account user@test.com exists and is active. Login page /login is open.
+Test Data: email: user@test.com / password: WrongPass999
+Steps:
+  1. Navigate to /login
+  2. Enter email: user@test.com
+  3. Enter password: WrongPass999
+  4. Click "Login" button
+Expected Result: Login fails. Error message "Invalid email or password" is displayed below the form. User remains on /login page. No session cookie is set.
 ```
 
 ### ✅ Good — Edge Case (Account Lockout)
