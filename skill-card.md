@@ -1,4 +1,4 @@
-# Skill Card (1 trang)
+# Skill Card 
 
 ## testcase-generator (v1.1.0)
 
