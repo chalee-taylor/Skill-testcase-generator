@@ -10,61 +10,61 @@
 
 ## How to Use This Spec with the Test Case Generator Skill
 
-> **Đây là Bước 3 trong quy trình Cook-A-Skill.** Spec này được thiết kế để feed trực tiếp vào skill **Test Case Generator** (xem `SPEC.md`). Mỗi feature section bên dưới đã có đủ Input / Output / Workflow để skill có thể generate test cases chất lượng cao ngay lập tức.
+> **This is Step 3 in the Cook-A-Skill workflow.** This spec is designed to be fed directly into the **Test Case Generator** skill (see `SPEC.md`). Each feature section below already includes complete Input / Output / Workflow details so the skill can immediately generate high-quality test cases.
 
 ### Input
 
 | Field | Value | Note |
 |---|---|---|
-| `spec_content` | Copy toàn bộ 1 feature section (từ `## Feature:` đến hết `Validation Rules`) | Xử lý 1 feature mỗi lần |
-| `feature_name` | Tên feature, ví dụ: `"Photo Search & Discovery"` | Dùng đúng tên trong heading |
-| `output_format` | `markdown` hoặc `json` hoặc `csv` | Mặc định: `markdown` |
-| `coverage_level` | `basic` / `standard` / `full` | Khuyến nghị: `full` |
-| `enable_security` | `true` | Luôn bật cho web app |
-| `mask_pii` | `true` | Luôn bật — spec không chứa PII thật |
+| `spec_content` | Copy one full feature section (from `## Feature:` through `Validation Rules`) | Process one feature at a time |
+| `feature_name` | Feature name, for example: `"Photo Search & Discovery"` | Use the exact heading name |
+| `output_format` | `markdown` or `json` or `csv` | Default: `markdown` |
+| `coverage_level` | `basic` / `standard` / `full` | Recommended: `full` |
+| `enable_security` | `true` | Always enabled for web apps |
+| `mask_pii` | `true` | Always enabled — this spec contains no real PII |
 
 ### Output
 
-| Thành phần | Mô tả |
+| Component | Description |
 |---|---|
-| Test Case List | Danh sách TC có đủ: Happy Path, Negative, Edge Case, Security |
-| Traceability Matrix | Mapping BR-xxx → TC-xxx, phát hiện rule chưa có TC |
-| Coverage Summary | Tổng số TC theo từng loại |
-| Test Report Template | Template điền kết quả sau khi chạy |
+| Test Case List | Test case list covering: Happy Path, Negative, Edge Case, Security |
+| Traceability Matrix | Mapping BR-xxx → TC-xxx, including detection of rules without test coverage |
+| Coverage Summary | Total number of test cases by category |
+| Test Report Template | Template for recording execution results |
 
 ### Workflow
 
 ```
-Bước 1: Chọn 1 feature từ Table of Contents bên dưới
+Step 1: Choose one feature from the Table of Contents below
          │
          ▼
-Bước 2: Copy toàn bộ section đó (heading + Input + Output + Workflow + BR + Validation)
+Step 2: Copy the full section (heading + Input + Output + Workflow + BR + Validation)
          │
          ▼
-Bước 3: Paste vào spec_content của skill Test Case Generator
+Step 3: Paste it into `spec_content` of the Test Case Generator skill
          │
          ▼
-Bước 4: Đặt coverage_level = full, enable_security = true
+Step 4: Set `coverage_level = full`, `enable_security = true`
          │
          ▼
-Bước 5: Chạy skill → nhận test cases
+Step 5: Run the skill → receive test cases
          │
          ▼
-Bước 6: Review output — refine spec nếu cần, re-run
+Step 6: Review output — refine the spec if needed, then re-run
          │
          ▼
-Bước 7: Export ra Markdown / JSON / CSV để dùng trong test session
+Step 7: Export to Markdown / JSON / CSV for use in test sessions
 ```
 
 ### Pain Point Analysis
 
-| Vấn đề khi viết TC thủ công | Skill giải quyết thế nào |
+| Manual test-case writing pain point | How the skill solves it |
 |---|---|
-| Mất 2–4h đọc spec, hiểu flow, viết từng TC | Skill đọc spec và generate TC trong < 30 giây |
-| Dễ bỏ sót edge case (boundary, empty, overflow) | Skill chạy Edge Case Checklist tự động |
-| Hay quên security cases (SQLi, XSS, brute force) | Skill luôn generate security standard set |
-| Format TC không đồng nhất giữa các QC | Skill output theo schema cố định, nhất quán |
-| Không có traceability (BR nào chưa được test?) | Skill tự tạo Traceability Matrix |
+| Takes 2–4 hours to read spec, understand flow, and write test cases manually | Skill parses the spec and generates test cases in < 30 seconds |
+| Easy to miss edge cases (boundary, empty, overflow) | Skill runs an automatic Edge Case Checklist |
+| Security cases are often forgotten (SQLi, XSS, brute force) | Skill always generates a standard security test set |
+| Inconsistent test-case format across QA engineers | Skill output follows a fixed, consistent schema |
+| No traceability (which BRs are not tested?) | Skill automatically generates a Traceability Matrix |
 
 ---
 
