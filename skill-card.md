@@ -3,85 +3,106 @@
 ---
 
 ## Skill Name
-**Test Case Generator**
+**testcase-generator** (`v1.1.0`)
 
-Automatically generates test cases from spec/PRD/BRS files, covering Happy Path, Negative, Edge Case, and Security — output is ready to use immediately.
-
----
-
-## What Is Automated
-
-QC/Tester submits a spec file (`.md`) → Skill reads the spec, analyzes business logic, detects edge cases, and generates a complete, standardized test case suite — including a Traceability Matrix and Test Report Template.
+Generate high-quality manual test cases from a spec/PRD/BRS/User Story with strict validation, risk scanning, and traceability.
 
 ---
 
-## BEFORE: Manual Process
+## What this Skill Automates
 
-| Step | Description |
-|------|-------------|
-| 1 | QC reads the spec manually — line by line to understand the business logic |
-| 2 | Thinks through scenarios: happy path, failures, boundary values |
-| 3 | Types each test case into a sheet or document |
-| 4 | Reviews the list to check for missing cases |
-| 5 | Reformats everything to match the team standard |
+Given `spec_content`, the skill will:
 
-**Time:** 2–4 hours / feature (complex features can take 6–8 hours)
-
-**Risks:**
-- Edge cases and security cases are easily missed
-- Each QC writes in a different format → hard to review and merge
-- Quality depends entirely on individual experience
+1. Mask sensitive data (optional, default ON).
+2. Validate input/spec quality before generation.
+3. Parse feature, flows, business rules, validations, and boundaries.
+4. Run an **Intelligence Scan Report** (what it understood + risk areas + gaps).
+5. Generate test cases by coverage level (`basic` / `standard` / `full`).
+6. Include security scenarios (default ON).
+7. Produce output in `markdown` / `json` / `csv`.
+8. Build a traceability matrix (except when skipped by low coverage mode).
 
 ---
 
-## AFTER: With the Skill
+## Inputs
 
-| Step | Description |
-|------|-------------|
-| 1 | QC pastes the spec content into Claude |
-| 2 | Skill auto-analyzes: user flow, business rules, edge cases, security |
-| 3 | Receives a complete test case suite instantly (Markdown / JSON / CSV) |
-| 4 | QC reviews quickly and makes minor edits if needed |
-
-**Time:** 15–30 minutes / feature (mostly spent on reviewing the output)
-
-**Benefits:**
-- Covers all 4 types: Happy Path, Negative, Edge Case, Security
-- Consistent, standardized format across the entire team
-- Auto-generated Traceability Matrix — shows which rules have no TC yet
-- Nothing missed thanks to an 8-category Edge Case Checklist
+| Parameter | Required | Default | Notes |
+|---|---|---|---|
+| `spec_content` | Yes | — | Full spec text, minimum quality required |
+| `feature_name` | No | Auto-extract | Use when spec has multiple names |
+| `output_format` | No | `markdown` | `markdown` / `json` / `csv` |
+| `coverage_level` | No | `standard` | `basic` / `standard` / `full` |
+| `enable_security` | No | `true` | Include OWASP/auth/permission abuse cases |
+| `mask_pii` | No | `true` | Redact sensitive data before processing |
 
 ---
 
-## Tools / AI Used
+## Quality Gates & Safety Rules
+
+- Hard-stop on invalid input:
+  - `ERR-001` empty spec
+  - `ERR-002` invalid encoding/characters
+  - `ERR-003` spec too short (< 50 chars)
+  - `ERR-004` invalid output format
+  - `ERR-005` invalid coverage level
+- Hard-stop on weak spec with `WARN-001` if missing:
+  - at least one user flow
+  - at least one business rule/validation
+- Non-negotiable output behavior:
+  - No vague steps (must be explicit actions)
+  - No unverifiable expected results
+  - Must provide concrete test data
+  - Must self-check anti-patterns before final output
+
+---
+
+## BEFORE vs AFTER
+
+| Aspect | Manual (Before) | With Skill (After) |
+|---|---|---|
+| Spec analysis | QC reads and interprets manually | Auto-parsed with rule extraction + risk flags |
+| Coverage design | Depends on individual experience | Structured by checklist + coverage level |
+| Security cases | Often skipped or delayed | Included by default |
+| Traceability | Manual linking | Auto-generated matrix |
+| Typical effort | 2–4h (or more for complex features) | ~15–30m including review |
+
+---
+
+## Outputs
+
+- Test case suite (Happy path, Negative, Edge, Security)
+- Intelligence Scan Report
+- Spec gap warnings and confidence assessment
+- Traceability matrix (rule ↔ test case mapping)
+- PII masking report (when enabled)
+
+---
+
+## Tooling
 
 | Tool | Role |
-|------|------|
-| **Claude (Anthropic)** | Core AI model — reads spec, reasons through logic, generates test cases |
-| **Claude Code** | Environment for writing and testing SKILL.md and SPEC.md |
-| **Markdown** | Format for both spec input and test case output |
-| **Git / GitHub** | Version control and Pull Request review workflow |
+|---|---|
+| Claude / Claude Code | Execute skill workflow and generation |
+| Markdown / JSON / CSV | Output formats |
+| Git / GitHub | Versioning and PR review |
 
 ---
 
-## Limitations
+## Current Limitations
 
-- Vague spec with missing user flow or business rules → skill returns `WARN-001` and stops without generating output
-- Handles **1 feature per run** — multi-feature specs must be split first
-- Does not generate automation scripts (Selenium, Playwright, Postman)
-- No direct integration with Jira, TestRail, or any bug tracker
-- Does not execute tests — only generates test cases for QC to run manually
-- Output quality depends on spec quality: garbage in → garbage out
+- If spec quality is too low, skill stops (does not guess).
+- Focuses on **test case generation**, not test execution.
+- Does not directly publish to Jira/TestRail by default.
+- Multi-feature specs may need splitting for cleaner outputs.
 
 ---
 
-## Expansion Roadmap
+## Roadmap
 
-| Priority | Feature |
-|----------|---------|
-| 🔴 High | Detect ambiguity in the spec and suggest improvements before generating TCs |
-| 🔴 High | Direct export to Jira / TestRail via API |
-| 🟡 Medium | Generate automation test skeletons (Playwright / Pytest) from existing TCs |
-| 🟡 Medium | Batch processing for multiple features at once |
-| 🟢 Low | Auto-generate test execution report after QC fills in results |
-| 🟢 Low | Support specs written in multiple languages (EN / VI / JP) |
+| Priority | Planned Improvement |
+|---|---|
+| High | Better ambiguity detection + actionable spec fixes |
+| High | Native export/integration to Jira/TestRail APIs |
+| Medium | Generate automation skeletons from TCs (Playwright/Pytest) |
+| Medium | Batch generation for multiple features |
+| Low | Multi-language tuning and localized templates |
