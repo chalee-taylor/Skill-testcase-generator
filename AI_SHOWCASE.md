@@ -15,8 +15,8 @@
 - [x] Có prompt thực tế bám theo spec thật.
 - [x] Có conversation nhiều vòng (không chỉ 1 prompt).
 - [x] Có output cụ thể, dùng được ngay cho test execution.
-- [x] Có minh hoạ khả năng refine kết quả bằng prompt follow-up.
-- [x] Có phần nêu hạn chế và cách xử lý khi spec thiếu dữ liệu.
+- [ ] Có minh hoạ khả năng refine kết quả bằng prompt follow-up.
+- [ ] Có phần nêu hạn chế và cách xử lý khi spec thiếu dữ liệu.
 - [ ] Đã gắn **screenshot thật** từ phiên chat khi present.
 - [ ] Đã gắn **link share conversation** (Claude/ChatGPT) bản cuối.
 
