@@ -39,10 +39,16 @@ Refine bộ test case ở trên với yêu cầu:
 
 <img width="867" height="1078" alt="image" src="https://github.com/user-attachments/assets/5965f6ec-aa4e-4858-b381-8859a5fd870a" />
 
-## 5) Showcase Prompt #3 — Buid skill từ file spec đã được duyệt
+## 5) Showcase Prompt #3 — Build skill từ file spec đã được duyệt
 
 ```text
 Build file skill dựa vào file spec.md...
+```
+
+- Tạo `SKILL.md` theo đúng format chuẩn skill.
+- Bao gồm: persona, input format, workflow, output schema, checklist đánh giá coverage.
+- Nếu spec thiếu thông tin, thêm bước hỏi lại để làm rõ trước khi sinh test case.
+- Ưu tiên output có thể copy dùng ngay cho test execution.
 
 ## 6) Showcase Prompt #4 — Refine skill sau lần đầu chạy thử
 
