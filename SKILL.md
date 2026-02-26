@@ -1,5 +1,5 @@
 ---
-name: testcase-generator
+name: skill-testcase-generator
 version: 1.1.0
 description: >
   Automatically generates test cases from a spec/requirement document. Activated when
